@@ -1,9 +1,10 @@
+
 import { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
 
 const TodoItem = ({ todo, moveTodo, updateDate }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [menu, setMenu] = useState({ a: 0, b: 0 });
+  const [menu, setMenu] = useState({ x: 0, y: 0 });
   const [{ isDragging }, drag] = useDrag({
     type: 'TODO',
     item: { id: todo.id },
@@ -11,13 +12,13 @@ const TodoItem = ({ todo, moveTodo, updateDate }) => {
       isDragging: monitor.isDragging(),
     }),
   });
-  const handleMenu = (event) => {
-    event.preventDefault();
-    setMenu({ a: event.clientX, b: event.clientY });
+  const handleMenu = (e) => {
+    e.preventDefault();
+    setMenu({ x: e.clientX, y: e.clientY });
     setShowMenu(true);
   };
-  const handleDate = (event) => {
-    updateDate(todo.id, event.target.value);
+  const handleDate = (e) => {
+    updateDate(todo.id, e.target.value);
   };
   useEffect(() => {
     if (todo.status === 'Ongoing' && todo.dueDate) {
@@ -37,11 +38,11 @@ const TodoItem = ({ todo, moveTodo, updateDate }) => {
       ref={drag}
       className={`rounded p-3 m-2  shadow cursor-move ${
         todo.status === 'New'
-          ? 'bg-[#f156ea2e] border-[#f156ea2e]'
+          ? 'bg-gradient-to-r from-purple-100 to-purple-200'
           : todo.status === 'Ongoing'
-          ? 'bg-[#fccb1946] border-[#fcca19] '
-          : 'bg-[#cbf8db] border-[#c4eed3]'
-      } ${isDragging ? 'opacity-50' : ''} transition-all duration-200 hover:shadow-md`}
+          ? 'bg-gradient-to-r from-[#f6df8d] to-[#fcca19] '
+          : 'bg-gradient-to-r from-[#cbf8db] to-[#c4eed3]'
+      } ${isDragging ? 'opacity-50' : ''} hover:scale-105 transition-all duration-200 hover:shadow-md`}
       onContextMenu={handleMenu}
     >
       <h3 className="font-bold text-lg">{todo.title}</h3>

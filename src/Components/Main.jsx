@@ -4,7 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import TodoColumn from './TodoColumn';
 
 const Main = () => {
-  const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState([]);
   const [columnTitles, setColumnTitles] = useState({
     New: 'New',
     Ongoing: 'Ongoing',
@@ -52,6 +52,16 @@ const Main = () => {
     );
   };
 
+  const reorderTodos = (sourceIndex, targetIndex, status) => {
+    const filteredTodos = todos.filter((todo) => todo.status === status);
+    const [movedTodo] = filteredTodos.splice(sourceIndex, 1);
+    filteredTodos.splice(targetIndex, 0, movedTodo);
+    const reorderedTodos = todos.map((todo) =>
+      filteredTodos.find((t) => t.id === todo.id) || todo
+    );
+    setTodos(reorderedTodos);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="header">
@@ -66,6 +76,7 @@ const Main = () => {
             moveTodo={moveTodo}
             updateDueDate={updateDueDate}
             updateColumnTitle={updateColumnTitle}
+            reorderTodos={reorderTodos}
           />
           <TodoColumn
             title={columnTitles.Ongoing}
@@ -73,6 +84,7 @@ const Main = () => {
             moveTodo={moveTodo}
             updateDueDate={updateDueDate}
             updateColumnTitle={updateColumnTitle}
+            reorderTodos={reorderTodos}
           />
           <TodoColumn
             title={columnTitles.Done}
@@ -80,6 +92,7 @@ const Main = () => {
             moveTodo={moveTodo}
             updateDueDate={updateDueDate}
             updateColumnTitle={updateColumnTitle}
+            reorderTodos={reorderTodos}
           />
         </div>
       </div>

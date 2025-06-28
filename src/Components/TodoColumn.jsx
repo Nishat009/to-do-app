@@ -11,8 +11,8 @@ const TodoColumn = ({ title, todos, addTodo, moveTodo, updateDueDate }) => {
   });
 
   return (
-    <div ref={drop} className="flex-1 p-4 bg-[#f3f3f3] rounded m-2 h-max">
-      <h2 className="text-xl font-bold mb-4">{title}</h2>
+    <div ref={drop} className="flex-1 p-4 bg-gray-800 rounded m-2 h-max">
+      <h2 className="text-xl font-bold mb-4 bg-gray-700 p-3 text-white rounded">{title}</h2>
       {title === 'New' && <TodoForm addTodo={addTodo} />}
       {todos.map((todo) => (
         <TodoItem

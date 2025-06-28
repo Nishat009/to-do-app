@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+body{
+    font-family: "Roboto", sans-serif;
+   background-color: #E5E7EB;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+.header {
+  background: linear-gradient(90deg, #4A90E2, #9013FE); /* Teal to purple gradient */
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 2px solid #4A5568;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}

@@ -4,7 +4,6 @@ import { useDrag } from 'react-dnd';
 
 const TodoItem = ({ todo, moveTodo, updateDate }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [menu, setMenu] = useState({ x: 0, y: 0 });
   const [{ isDragging }, drag] = useDrag({
     type: 'TODO',
     item: { id: todo.id },
@@ -14,7 +13,6 @@ const TodoItem = ({ todo, moveTodo, updateDate }) => {
   });
   const handleMenu = (e) => {
     e.preventDefault();
-    setMenu({ x: e.clientX, y: e.clientY });
     setShowMenu(true);
   };
   const handleDate = (e) => {
@@ -33,10 +31,20 @@ const TodoItem = ({ todo, moveTodo, updateDate }) => {
   }, [todo.dueDate, todo.status, todo.title]);
   const option = ['New', 'Ongoing', 'Done'].filter((status) => status !== todo.status);
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const menuElement = document.querySelector('.context-menu');
+      if (showMenu && menuElement && !menuElement.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showMenu]);
   return (
     <div
       ref={drag}
-      className={`rounded p-3 m-2  shadow cursor-move ${
+      className={`rounded p-3 m-2 relative shadow cursor-move ${
         todo.status === 'New'
           ? 'bg-gradient-to-r from-purple-100 to-purple-200'
           : todo.status === 'Ongoing'
@@ -57,14 +65,18 @@ const TodoItem = ({ todo, moveTodo, updateDate }) => {
       )}
       {showMenu && (
         <div
-          className="absolute bg-white border rounded-sm shadow"
-          style={{ top: menu.y, left: menu.x }}
-          onClick={() => setShowMenu(false)}
+          className="absolute !top-20 !left-40 bg-white border rounded-sm shadow context-menu"
+          onClick={(e) => {
+            e.stopPropagation(); 
+            if (!e.target.closest('.menu-option')) {
+              setShowMenu(false);
+            }
+          }}
         >
           {option.map((status) => (
             <div
               key={status}
-              className="px-4 py-2 hover:bg-[#dfdfdf] cursor-pointer"
+              className="px-4 py-2 hover:bg-[#dfdfdf] cursor-pointer menu-option"
               onClick={() => {
                 moveTodo(todo.id, status);
                 setShowMenu(false);

@@ -50,7 +50,7 @@ const TodoItem = ({ todo, moveTodo, updateDate }) => {
           : todo.status === 'Ongoing'
           ? 'bg-gradient-to-r from-[#f6df8d] to-[#fcca19] '
           : 'bg-gradient-to-r from-[#cbf8db] to-[#c4eed3]'
-      } ${isDragging ? 'opacity-50' : ''} hover:scale-105 transition-all duration-200 hover:shadow-md`}
+      } ${isDragging ? 'opacity-50' : ''} transition-all duration-200 hover:shadow-md`}
       onContextMenu={handleMenu}
     >
       <h3 className="font-bold text-lg">{todo.title}</h3>
@@ -65,7 +65,7 @@ const TodoItem = ({ todo, moveTodo, updateDate }) => {
       )}
       {showMenu && (
         <div
-          className="absolute !top-20 !left-40 bg-white border rounded-sm shadow context-menu"
+          className="absolute z-[9999] !top-20 !left-40 bg-white border rounded-sm shadow context-menu"
           onClick={(e) => {
             e.stopPropagation(); 
             if (!e.target.closest('.menu-option')) {
